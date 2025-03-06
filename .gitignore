@@ -1,0 +1,11 @@
+.idea
+.mvn
+src/test
+target
+data.properties
+deployment.yaml
+docker-compose.yml
+Dockerfile
+mvnw
+mvnw.cmd
+service.yaml
