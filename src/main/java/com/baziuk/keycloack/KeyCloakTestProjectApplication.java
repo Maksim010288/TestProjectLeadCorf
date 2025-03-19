@@ -8,6 +8,5 @@ public class KeyCloakTestProjectApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(KeyCloakTestProjectApplication.class, args);
-
     }
 }

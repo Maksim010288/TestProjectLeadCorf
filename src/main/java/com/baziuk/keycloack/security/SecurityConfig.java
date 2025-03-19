@@ -1,5 +1,6 @@
 package com.baziuk.keycloack.security;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,11 +35,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Slf4j
 public class SecurityConfig {
 
+    private static OidcUserInfo userInfo;
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler)
+    public SecurityFilterChain filterChain(HttpSecurity http,
+                                           OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler)
             throws Exception {
-
-
         return http.authorizeHttpRequests(authorise ->
                         authorise
                                 .requestMatchers("/static/**", "/templates/html/**").permitAll()
@@ -48,19 +50,20 @@ public class SecurityConfig {
                 .exceptionHandling(authorise -> authorise.accessDeniedPage("/access-denied"))
                 .oauth2Login(withDefaults())
                 .logout(logout ->
-                        logout.logoutSuccessHandler(oidcLogoutSuccessHandler)).build();
+                        logout.logoutSuccessHandler(oidcLogoutSuccessHandler))
+                .build();
     }
 
+
     @Bean
-    @SuppressWarnings("unchecked")
     public GrantedAuthoritiesMapper userAuthoritiesMapper() {
 
         return (authorities) -> {
             Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
             authorities.forEach(authority -> {
                 if (authority instanceof OidcUserAuthority oidcUserAuthority) {
-                    OidcUserInfo userInfo = oidcUserAuthority.getUserInfo();
-                    List<String> realmAccess = userInfo.getClaim("myapp_sec_roles");
+                    userInfo = oidcUserAuthority.getUserInfo();
+                    List<String> realmAccess = userInfo.getClaim("keycloak_sec_roles");
                     if (realmAccess != null) {
                         realmAccess
                                 .forEach(role -> mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
@@ -81,6 +84,10 @@ public class SecurityConfig {
     @Bean
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
         return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+    }
+
+    public static String fullName() {
+        return userInfo.getFullName();
     }
 
 }

@@ -16,8 +16,20 @@
     <url/>
     <properties>
         <java.version>17</java.version>
+        <spring-boot-mail.version>3.2.4</spring-boot-mail.version>
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/com.sun.mail/smtp -->
+<!--        <dependency>-->
+<!--            <groupId>com.sun.mail</groupId>-->
+<!--            <artifactId>javax.mail</artifactId>-->
+<!--            <version>1.6.2</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+            <version>${spring-boot-mail.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
