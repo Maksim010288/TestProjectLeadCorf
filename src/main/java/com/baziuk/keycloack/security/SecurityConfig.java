@@ -57,7 +57,6 @@ public class SecurityConfig {
 
     @Bean
     public GrantedAuthoritiesMapper userAuthoritiesMapper() {
-
         return (authorities) -> {
             Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
             authorities.forEach(authority -> {
@@ -66,7 +65,8 @@ public class SecurityConfig {
                     List<String> realmAccess = userInfo.getClaim("keycloak_sec_roles");
                     if (realmAccess != null) {
                         realmAccess
-                                .forEach(role -> mappedAuthorities.add(new SimpleGrantedAuthority("ROLE_" + role)));
+                                .forEach(role -> mappedAuthorities.add(
+                                        new SimpleGrantedAuthority("ROLE_" + role)));
                     }
                 }
             });
@@ -77,7 +77,7 @@ public class SecurityConfig {
     @Bean
     OidcClientInitiatedLogoutSuccessHandler oidcLogoutSuccessHandler(ClientRegistrationRepository clientRegistrationRepository) {
         OidcClientInitiatedLogoutSuccessHandler successHandler = new OidcClientInitiatedLogoutSuccessHandler(clientRegistrationRepository);
-        successHandler.setPostLogoutRedirectUri(URI.create("http://localhost:8082").toString());
+        successHandler.setPostLogoutRedirectUri(URI.create("http://localhost:8084/").toString());
         return successHandler;
     }
 

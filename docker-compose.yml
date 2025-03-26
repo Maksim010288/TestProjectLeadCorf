@@ -1,8 +1,39 @@
 version: '3'
 
 services:
+  localhost:
+    image: alpine:latest
+    command: sleep infinity
+    ports:
+      - "8084:8084"
+      - "9092:9092"
+  keycloak_web:
+    image: quay.io/keycloak/keycloak:26.1.4
+    container_name: keycloak
+    environment:
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8084
+      KEYCLOAK_REALM: keycloak_realm
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_STRICT: 'false'
+      KC_HOSTNAME_STRICT_HTTPS: 'false'
+
+      KC_LOG_LEVEL: info
+      KC_METRICS_ENABLED: 'true'
+      KC_HEALTH_ENABLED: 'true'
+    command: ["start-dev", "--http-port", "8084"]
+    network_mode: service:localhost
+
   app:
     build: ./
     container_name: 'java-load'
-    ports:
-      - 9091:9091
+    environment:
+      KEYCLOAK-AUTH-SERVER-URL: http://localhost:8084/realms/keycloak_realm
+      KEYCLOAK_REALM: keycloak_realm
+      KEYCLOAK_CLIENT_ID: keycloak_client
+      KEYCLOAK_CLIENT_SECRET: xuo43Ukcn8ze2EZlBIDWMZDy0BxfoCn6
+    labels:
+      - "issuer-uri = http://localhost:8084/realms/keycloak_realm"
+      - "user-name-attribute = preferred_username"
+    network_mode: service:localhost

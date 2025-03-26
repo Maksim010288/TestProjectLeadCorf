@@ -1,12 +1,12 @@
-#spring.application.name=KeyCloakTestProject
-#spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8080/realms/myapp_realm
+
 server:
   port: 9092
+  http2:
+    enabled: true
 
 logging:
   level:
     org.springframework.web: DEBUG
-
 
 spring:
   security:
@@ -15,53 +15,15 @@ spring:
         registration:
           keycloak:
             client-id: keycloak_client
-            client-secret: z63npPHoNlPIF4Iw0SLhcQnWN1sKEVMm
-            scope: openid, profile, email
+            client-secret: N3drwZNV9t0QtAVKFhnuvR7hFEYngqyY #потрібно перевіряти
+            scope: openid, profile
             authorization-grant-type: authorization_code
         provider:
           keycloak:
-            issuer-uri: http://localhost:8082/realms/keycloak_realm
+            issuer-uri: http://localhost:8084/realms/keycloak_realm
             user-name-attribute: preferred_username
-
-
-#        registration:
-#          keycloak:
-#            client-id: myapp
-#            client-secret: RtFNsfFHAG67zjUlCH0vqOnYQdd2dwvh
-#            scope: openid, profile, email
-#            authorization-grant-type: authorization_code
-#        provider:
-#          keycloak:
-#            issuer-uri: http://localhost:8082/realms/myapp_realm
-#            user-name-attribute: preferred_username
-#
-#keycloak:
-#  server-url: http://localhost:8082/
-#  realm: myapp_realm
-#  username: root
-#  password: rootroot
-
   keycloak:
-    server-url: http://localhost:8082/
+    server-url: http://localhost:8084/realms/keycloak_realm
     realm: keycloak_realm
-    username: root
-    password: rootroot
-  mail:
-    host: smtp.gmail.com
-    port: 465
-    username: mysik.baziuk@gmail.com
-    password: vjnjkpgxtasljsfe
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-          ssl:
-            prototype: true
-
-
-
-
-
-
+    username: admin
+    password: admin
