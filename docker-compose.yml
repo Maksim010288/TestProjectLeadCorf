@@ -22,7 +22,9 @@ services:
       KC_LOG_LEVEL: info
       KC_METRICS_ENABLED: 'true'
       KC_HEALTH_ENABLED: 'true'
-    command: ["start-dev", "--http-port", "8084"]
+    volumes:
+      - ./certificates:/opt/keycloak/certs
+    command: ["start-dev", "--http-port", "8084", "--truststore-paths=/opt/keycloak/certs"]
     network_mode: service:localhost
 
   app:
@@ -32,7 +34,7 @@ services:
       KEYCLOAK-AUTH-SERVER-URL: http://localhost:8084/realms/keycloak_realm
       KEYCLOAK_REALM: keycloak_realm
       KEYCLOAK_CLIENT_ID: keycloak_client
-      KEYCLOAK_CLIENT_SECRET: xuo43Ukcn8ze2EZlBIDWMZDy0BxfoCn6
+      KEYCLOAK_CLIENT_SECRET: X2q1Clm1jlrekDF7FBw72ZNOomdwCb1m
     labels:
       - "issuer-uri = http://localhost:8084/realms/keycloak_realm"
       - "user-name-attribute = preferred_username"
