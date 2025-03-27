@@ -6,3 +6,5 @@ deployment.yaml
 mvnw
 mvnw.cmd
 service.yaml
+/certificates/*
+/target/*
