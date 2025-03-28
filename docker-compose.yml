@@ -34,7 +34,9 @@ services:
       KEYCLOAK-AUTH-SERVER-URL: http://localhost:8084/realms/keycloak_realm
       KEYCLOAK_REALM: keycloak_realm
       KEYCLOAK_CLIENT_ID: keycloak_client
-      KEYCLOAK_CLIENT_SECRET: X2q1Clm1jlrekDF7FBw72ZNOomdwCb1m
+      KEYCLOAK_CLIENT_SECRET: dsnmWFY7205wLUpTbkBrbVszPQSTq0ND
+    volumes:
+      - ./src/main/resources/static/images:/images/
     labels:
       - "issuer-uri = http://localhost:8084/realms/keycloak_realm"
       - "user-name-attribute = preferred_username"

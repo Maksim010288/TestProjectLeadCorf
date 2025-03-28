@@ -15,7 +15,7 @@ spring:
         registration:
           keycloak:
             client-id: keycloak_client
-            client-secret: X2q1Clm1jlrekDF7FBw72ZNOomdwCb1m #потрібно перевіряти
+            client-secret: dsnmWFY7205wLUpTbkBrbVszPQSTq0ND #потрібно перевіряти
             scope: openid, profile
             authorization-grant-type: authorization_code
         provider:
