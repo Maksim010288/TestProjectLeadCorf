@@ -9,13 +9,26 @@ logging:
     org.springframework.web: DEBUG
 
 spring:
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: true
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/keycloak
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
   security:
     oauth2:
       client:
         registration:
           keycloak:
             client-id: keycloak_client
-            client-secret: dsnmWFY7205wLUpTbkBrbVszPQSTq0ND #потрібно перевіряти
+            client-secret: N3drwZNV9t0QtAVKFhnuvR7hFEYngqyY #потрібно перевіряти
             scope: openid, profile
             authorization-grant-type: authorization_code
         provider:
